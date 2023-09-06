@@ -1,0 +1,91 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Jumbotron example · Bootstrap v5.0</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/jumbotron/">
+    <!-- Bootstrap core CSS -->
+<link href="{% static "assets/dist/css/bootstrap.min.css" %}" rel="stylesheet">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+  </head>
+
+<body>
+    <main>
+    <div class="container py-4">
+    <header class="pb-3 mb-4 border-bottom">
+        <span id="ai" class="fs-4"><b>AI Response Bot</b></span>
+    </header>
+
+    <div class="container-fluid">
+        <div class="h-100 p-4 bg-light rounded-3">
+            <p id="spoken_text">You said: </p>
+        </div>
+    </div>
+
+    <div class="container-fluid py-2">
+        <h1 class="display-10 fw-bold">AI Response:
+            <p id="ai_response"></p>
+        </h1>
+    </div>
+
+    <div class="col-md-6">
+        <div class="h-100 p-5 bg-light border rounded-3">
+          {% comment %} <a class="btn btn-primary btn-lg" href="{{ request.get_full_path }}" role="button">Regnerate response</a> {% endcomment %}
+          <button id="sendRequestBtn" class="btn btn-primary">Regenerate response</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Include Bootstrap JS and your custom JS here -->
+    <script src="{% static "assets/dist/js/bootstrap.bundle.min.js" %}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById("sendRequestBtn").addEventListener("click", function () {
+            const djangoUrl = "/index/";
+            // Define the Django URL you want to send the request to
+
+            // Send a GET request to Django
+            fetch(djangoUrl, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json", // Set the content type if needed
+                    // You can add more headers here if necessary
+                },
+            })
+            .then(response => response.json()) // If expecting JSON response
+            .then(data => {
+                // Handle the response data here
+                document.getElementById("spoken_text").innerHTML = data.spoken_text;
+                document.getElementById("ai_response").innerHTML = data.ai_response;
+            })
+            .catch(error => {
+                // Handle errors here
+                console.error("Error:", error);
+            });
+        });
+    </script>
+
+    </body>
+</html>

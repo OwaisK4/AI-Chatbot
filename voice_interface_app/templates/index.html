@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Interface</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  #container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  #inputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  #textOutput {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+  }
+  #listenButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <div id="container">
+    <div id="inputContainer">
+      <p id="spokenText"></p>
+    </div>
+    <div id="textOutput">
+      <p id="outputText"></p>
+    </div>
+    <button id="listenButton">Listen to Text</button>
+  </div>
+  <script>
+    const spokenText = document.getElementById('spokenText');
+    const outputText = document.getElementById('outputText');
+    const listenButton = document.getElementById('listenButton');
+
+    const recognition = new webkitSpeechRecognition(); // For Chrome
+    recognition.continuous = false;
+    recognition.lang = 'en-US'; // Language setting
+
+    recognition.onstart = function() {
+      listenButton.disabled = true;
+      spokenText.textContent = 'Listening...';
+    };
+
+    recognition.onend = function() {
+      listenButton.disabled = false;
+      spokenText.textContent = '';
+    };
+
+    recognition.onresult = function(event) {
+      const spoken = event.results[0][0].transcript;
+      spokenText.textContent = spoken;
+      outputText.textContent = 'Output: ' + spoken;
+    };
+
+    listenButton.addEventListener('click', function() {
+      // Implement your text-to-speech logic here
+      const spoken = outputText.textContent.substring(8); // Extracting text from "Output: "
+      const msg = new SpeechSynthesisUtterance(spoken);
+      speechSynthesis.speak(msg);
+    });
+
+    listenButton.disabled = true;
+    recognition.start();
+  </script>
+</body>
+</html>
