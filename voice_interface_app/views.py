@@ -6,9 +6,12 @@ from pydub import AudioSegment
 from pydub.playback import play
 from deep_translator import GoogleTranslator
 import openai
+import os
+from dotenv import load_dotenv
 
 # Set your OpenAI API key
-openai.api_key = "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"
+load_dotenv()
+openai.api_key = os.environ.get("OPENAI_TOKEN")
 
 
 def openai_generate_response(prompt):
