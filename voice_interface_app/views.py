@@ -31,7 +31,7 @@ def index(request):
     spoken_text = "Default text"
     ai_response = "Default response"
 
-    async def SpeakText(command):
+    def SpeakText(command):
         # Translate the command to Urdu
         ar = GoogleTranslator(source="auto", target="ur").translate(command)
         tts = gTTS(ar, lang="ur")
