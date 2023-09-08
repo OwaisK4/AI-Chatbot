@@ -51,7 +51,8 @@ def index(request):
             with open("audio_file", "wb") as f:
                 f.write(audio.get_raw_data())
             print("Recording complete.")
-            spoken_text = r.recognize_google(audio, language="en-US")
+            # spoken_text = r.recognize_google(audio, language="en-US")
+            spoken_text = r.recognize_google(audio, language="ur-PK")
             print("You said:", spoken_text)
 
             # Create a conversation prompt
